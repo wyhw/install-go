@@ -36,9 +36,9 @@ $gopathbin = Join-Path $gopath "bin"
 [Environment]::SetEnvironmentVariable( "GOBIN", $gopathbin, [System.EnvironmentVariableTarget]::User )
 
 Write-Output "downloading $url"
-if（Test-Path $dest) {
+If (Test-Path $dest) {
     Write-Host "USE downloaded file : $dest"
-} else {
+} Else {
     # Create client, set its info, and download
     $wc = New-Object System.Net.WebClient
     $wc.UseDefaultCredentials = $true
