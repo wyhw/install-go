@@ -36,15 +36,19 @@ $gopathbin = Join-Path $gopath "bin"
 [Environment]::SetEnvironmentVariable( "GOBIN", $gopathbin, [System.EnvironmentVariableTarget]::User )
 
 Write-Output "downloading $url"
-# Create client, set its info, and download
-$wc = New-Object System.Net.WebClient
-$wc.UseDefaultCredentials = $true
-$wc.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f")
-$wc.DownloadFile($url, $dest)
+if（Test-Path $dest) {
+    Write-Host "USE downloaded file : $dest"
+} else {
+    # Create client, set its info, and download
+    $wc = New-Object System.Net.WebClient
+    $wc.UseDefaultCredentials = $true
+    $wc.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f")
+    $wc.DownloadFile($url, $dest)
 
-Write-Output "$url downloaded as $dest"
+    Write-Output "$url downloaded as $dest"
+}
 Write-Output "installing $v..."
 # Run the msi
-Start-Process $dest
+Start-Process $dest "/Quiet /NoRestart" -Wait
 
 Write-Output "done"
